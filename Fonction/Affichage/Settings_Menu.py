@@ -4,6 +4,7 @@ import pygame_gui
 
 # Importation des variables partagées
 import Fonction.Affichage.Shared_Things as var
+
 class SettingsMenu():
 
     def __init__(self, ui_manager: pygame_gui.UIManager, state_manager):

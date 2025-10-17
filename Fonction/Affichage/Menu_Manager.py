@@ -1,10 +1,11 @@
 # Importation des modules nécessaires
-import random
 from pygame.locals import *
 
 # Importation des composants personnalisés
 from .Home_Menu import *
 from .Settings_Menu import *
+from .Codex_Menu import *
+from .Game_Menu import *
 
 
 class AppStateManager:

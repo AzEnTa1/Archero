@@ -31,7 +31,10 @@ Clock = pygame.time.Clock()  # Gestion du taux de rafraîchissement
 app_state_manager = AppStateManager()
 MainMenu(ui_manager, app_state_manager)
 SettingsMenu(ui_manager, app_state_manager)
-app_state_manager.set_initial_state('settings_menu')
+CodexMenu(ui_manager, app_state_manager)
+GameMenu(ui_manager, app_state_manager)
+
+app_state_manager.set_initial_state('main_menu')
 Running = True  # Contrôle l'exécution de la boucle principale
 
 # Boucle principale du jeu
