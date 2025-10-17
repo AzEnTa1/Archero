@@ -6,157 +6,77 @@ import pygame_gui
 # Importation des variables partagées
 import Fonction.Affichage.Shared_Things as var
 
-def Init_Home_Menu():
-    """
-    Initialise tous les éléments d'interface du menu principal.
-    
-    Crée et configure :
-    - Les boutons de navigation (Settings, Codex, Exit)
-    - Les boutons de sélection de monde
-    - Les labels d'information des mondes
-    - Le titre du jeu
-    
-    Returns:
-        list: Liste de tous les éléments d'interface créés
-    """
-    global Ui_Elem, Settings_Button, Codex_Button, World_1_Button, World_2_Button, World_3_Button, Exit_Game_Button, Game_Title_Label, World_1_Label, World_2_Label, World_3_Label, World_2_Label, World_3_Label
-    
-    # Création des boutons principaux
-    Settings_Button = pygame_gui.elements.UIButton(
-        var.Settings_Button_Rect,
-        'Settings',
-        var.Manager,
-        object_id="@Setting_Button"
-    )
-    
-    Codex_Button = pygame_gui.elements.UIButton(
-        var.Codex_Button,
-        'Codex',
-        var.Manager,
-        object_id="@Codex_Button"
-    )
-    
-    Exit_Game_Button = pygame_gui.elements.UIButton(
-        var.Exit_Game_Button,
-        'Exit',
-        var.Manager,
-        object_id="@Exit_Button"
-    )
+class MainMenu():
 
-    # Boutons de sélection des mondes
-    World_1_Button = pygame_gui.elements.UIButton(
-        var.World_1_Button,
-        'Play',
-        var.Manager
-    )
-    
-    World_2_Button = pygame_gui.elements.UIButton(
-        var.World_2_Button,
-        'Play',
-        var.Manager
-    )
-    
-    World_3_Button = pygame_gui.elements.UIButton(
-        var.World_3_Button,
-        'Play',
-        var.Manager
-    )
+    def __init__(self, ui_manager: pygame_gui.UIManager, state_manager):
 
-    # Création des éléments textuels
-    Game_Title_Label = pygame_gui.elements.UILabel(
-        var.Game_Title_Label,
-        "ROGUE-LIKE CSV",
-        var.Manager,
-        object_id="@Game_Title"
-    )
-    
-    # Labels d'information des mondes
-    World_1_Label = pygame_gui.elements.UILabel(
-        var.World_1_Info_Rect,
-        '',
-        var.Manager,
-        object_id="@WorldLabel"
-    )
-    
-    World_2_Label = pygame_gui.elements.UILabel(
-        var.World_2_Info_Rect,
-        '',
-        var.Manager,
-        object_id="@WorldLabel"
-    )
-    
-    World_3_Label = pygame_gui.elements.UILabel(
-        var.World_3_Info_Rect,
-        '',
-        var.Manager,
-        object_id="@WorldLabel"
-    )
+        self.name = 'main_menu'
+        self.state_manager = state_manager
+        self.transition = False
+        self.quit_game = False
 
-    # Regroupement de tous les éléments
-    Ui_Elem = [
-        Settings_Button,
-        Codex_Button,
-        World_1_Button,
-        World_2_Button,
-        World_3_Button,
-        Exit_Game_Button,
-        Game_Title_Label,
-        World_1_Label,
-        World_2_Label,
-        World_3_Label
-    ]
-    
-    return Ui_Elem
+        self.state_manager.register_state(self)
+        self.ui_manager = ui_manager
+        self.Settings_Button = None
+        self.Codex_Button = None
+        self.World_1_Button = None
+        self.Exit_Game_Button = None
+        self.Game_Title_Label = None
+        self.World_1_Label = None
 
-def End_Home_Menu():
-    """Masque tous les éléments du menu principal"""
-    for Elem in Ui_Elem:
-        Elem.hide()
 
-def Start_Home_Menu():
-    """
-    Initialise l'affichage des données des mondes.
-    
-    Charge les données depuis les fichiers JSON et:
-    - Affiche 'Nouvelle Partie' si première partie
-    - Affiche les statistiques sauvegardées sinon
-    - Gère les erreurs de chargement des fichiers
-    """
-    # Chargement des données pour chaque monde
-    for monde in [1, 2, 3]:
-        try:
-            with open(f"Data/World_{monde}/World_{monde}.json", 'r') as f:
-                data = json.load(f)
+
+    def start(self):
+        # Création des boutons principaux
+        self.Settings_Button = pygame_gui.elements.UIButton(
+            pygame.Rect((215, 460), (150, 50)),
+            'Settings',
+            self.ui_manager,
+            object_id="@Setting_Button"
+        )
+        
+        self.Codex_Button = pygame_gui.elements.UIButton(
+            pygame.Rect((405, 460), (150, 50)),
+            'Codex',
+            self.ui_manager,
+            object_id="@Codex_Button"
+        )
+        
+        self.Exit_Game_Button = pygame_gui.elements.UIButton(
+            pygame.Rect((595, 460), (150, 50)),
+            'Exit',
+            self.ui_manager,
+            object_id="@Exit_Button"
+        )
+
+        # Boutons de sélection des mondes
+        self.World_1_Button = pygame_gui.elements.UIButton(
+            pygame.Rect((175, 370), (110, 40)),
+            'Play',
+            self.ui_manager
+        )
+
+        # Création des éléments textuels
+        self.Game_Title_Label = pygame_gui.elements.UILabel(
+            pygame.Rect((115, 45), (730, 150)),
+            "ROGUE-LIKE CSV",
+            self.ui_manager,
+            object_id="@Game_Title"
+        )
+
+    def run(self, surface, time_delta):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                self.quit_game = True
                 
-                # Détermination du texte à afficher
-                if data.get("Nouvelle_Partie", 1) == 1:
-                    texte = "Nouvelle Partie"
-                else:
-                    texte = (f"Cœurs: {data.get('Heart', 0)}\n"
-                             f"Score: {data.get('High Score', 0)}\n"
-                             f"M: {data.get('Monde', 'Inc')}\n")
+            self.ui_manager.process_events(event)
 
-                # Mise à jour du label correspondant
-                if monde == 1: 
-                    World_1_Label.set_text(texte)
-                elif monde == 2: 
-                    World_2_Label.set_text(texte)
-                else: 
-                    World_3_Label.set_text(texte)
-                
-        except Exception as e:
-            print(f"Erreur chargement monde {monde}: {str(e)}")
-            # Texte par défaut en cas d'erreur
-            if monde == 1: 
-                World_1_Label.set_text("Nouvelle Partie")
-            elif monde == 2: 
-                World_2_Label.set_text("Nouvelle Partie")
-            else: 
-                World_3_Label.set_text("Nouvelle Partie")
-    
-    # Affichage de tous les éléments
-    for Elem in Ui_Elem:
-        Elem.show()
+        self.ui_manager.update(time_delta)
+
+        surface.fill("#1A1D2E")
+
+        self.ui_manager.draw_ui(surface)
+'''
 
 def Display_Home(Screen, Running, Time_Delta):
     """
@@ -212,3 +132,4 @@ def Display_Home(Screen, Running, Time_Delta):
     var.Manager.draw_ui(Screen)
 
     return Running
+    '''
