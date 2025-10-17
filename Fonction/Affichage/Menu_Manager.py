@@ -4,6 +4,7 @@ from pygame.locals import *
 
 # Importation des composants personnalisés
 from .Home_Menu import *
+from .Settings_Menu import *
 
 
 class AppStateManager:

@@ -4,56 +4,60 @@ import pygame_gui
 
 # Importation des variables partagées
 import Fonction.Affichage.Shared_Things as var
+class SettingsMenu():
 
-def Init_Settings_Menu():
-    """
-    Initialise les éléments d'interface du menu des paramètres.
-    
-    Crée :
-    - Bouton de retour au menu principal
-    - Curseur de réglage des FPS
-    - Label d'affichage des FPS
-    """
-    global Ui_Elem, Back_Home_Button, FPS_Slider, FPS_Label
+    def __init__(self, ui_manager: pygame_gui.UIManager, state_manager):
 
-    # Création du bouton de retour
-    Back_Home_Button = pygame_gui.elements.UIButton(
-        var.Back_Home_Button_Rect,
-        'Home',
-        var.Manager
-    )
-    
-    # Configuration du curseur FPS
-    Slider_Rect = pygame.Rect(735, 175, 200, 30)  # Rectangle de positionnement
-    FPS_Slider = pygame_gui.elements.UIHorizontalSlider(
-        relative_rect=Slider_Rect,
-        start_value=var.FPS,  # Valeur initiale
-        value_range=(1, 301),  # Plage de réglage
-        manager=var.Manager,
-        object_id="@FPS_Slider"
-    )
+        self.name = 'settings_menu'
+        self.state_manager = state_manager
+        self.transition = False
+        self.quit_game = False
 
-    # Création du label FPS
-    Label_RECT = pygame.Rect(735, 145, 200, 30)
-    FPS_Label = pygame_gui.elements.UILabel(
-        relative_rect=Label_RECT,
-        text=f"FPS: {var.FPS}",  # Texte initial
-        manager=var.Manager,
-        object_id="@FPS_Label"
-    )
+        self.state_manager.register_state(self)
+        self.ui_manager = ui_manager
+        self.Back_Home_Button = None
+        self.FPS_Slider = None
+        self.FPS_Label = None
 
-    Ui_Elem = [Back_Home_Button, FPS_Slider, FPS_Label]
-    End_Settings_Menu()  # Masque les éléments par défaut
+    def start(self):
 
-def End_Settings_Menu():
-    """Masque tous les éléments du menu des paramètres"""
-    for Elem in Ui_Elem:
-        Elem.hide()
+        # Création du bouton de retour
+        self.Back_Home_Button = pygame_gui.elements.UIButton(
+            pygame.Rect((0, 0), (100, 50)),
+            'Home',
+            self.ui_manager
+        )
+        # Configuration du curseur FPS
+        
+        self.FPS_Slider = pygame_gui.elements.UIHorizontalSlider(
+            relative_rect = pygame.Rect(735, 175, 200, 30),
+            start_value=var.FPS,  # Valeur initiale
+            value_range=(1, 301),  # Plage de réglage
+            manager=self.ui_manager,
+            object_id="@FPS_Slider"
+        )
 
-def Start_Settings_Menu():
-    """Affiche tous les éléments du menu des paramètres"""
-    for Elem in Ui_Elem:
-        Elem.show()
+        # Création du label FPS
+        self.FPS_Label = pygame_gui.elements.UILabel(
+            relative_rect = pygame.Rect(735, 145, 200, 30),
+            text=f"FPS: {var.FPS}",  # Texte initial
+            manager=self.ui_manager,
+            object_id="@FPS_Label"
+        )
+
+    def run(self, surface, time_delta):
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                self.quit_game = True
+                
+            self.ui_manager.process_events(event)
+
+        self.ui_manager.update(time_delta)
+
+        surface.fill("#1A1D2E")
+
+        self.ui_manager.draw_ui(surface)
+'''
 
 def Display_Settings(Screen, Running, Time_Delta):
     """
@@ -93,3 +97,4 @@ def Display_Settings(Screen, Running, Time_Delta):
     var.Manager.draw_ui(Screen)
     
     return Running
+    '''

@@ -19,10 +19,9 @@ class MainMenu():
         self.ui_manager = ui_manager
         self.Settings_Button = None
         self.Codex_Button = None
-        self.World_1_Button = None
+        self.play_Button = None
         self.Exit_Game_Button = None
         self.Game_Title_Label = None
-        self.World_1_Label = None
 
 
 
@@ -36,21 +35,21 @@ class MainMenu():
         )
         
         self.Codex_Button = pygame_gui.elements.UIButton(
-            pygame.Rect((405, 460), (150, 50)),
+            pygame.Rect((0, 0), (150, 50)),
             'Codex',
             self.ui_manager,
             object_id="@Codex_Button"
         )
         
         self.Exit_Game_Button = pygame_gui.elements.UIButton(
-            pygame.Rect((595, 460), (150, 50)),
+            pygame.Rect((0, 460), (150, 50)),
             'Exit',
             self.ui_manager,
             object_id="@Exit_Button"
         )
 
         # Boutons de sélection des mondes
-        self.World_1_Button = pygame_gui.elements.UIButton(
+        self.play_Button = pygame_gui.elements.UIButton(
             pygame.Rect((175, 370), (110, 40)),
             'Play',
             self.ui_manager
