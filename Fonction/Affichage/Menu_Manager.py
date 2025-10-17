@@ -23,12 +23,19 @@ class AppStateManager:
     def run(self, surface, time_delta):
         if self.active_state is not None:
             self.active_state.run(surface, time_delta)
+            
+            if self.active_state.transition:
+                self.active_state.transition = False
+                self.active_state.end()
+                self.active_state = self.states[self.active_state.target_state_name]
+                
+                self.active_state.start()
 
             if self.active_state.quit_game:
                 return False
 
         return True
-    
+
     def set_initial_state(self, name):
         if name in self.states:
             self.active_state = self.states[name]
