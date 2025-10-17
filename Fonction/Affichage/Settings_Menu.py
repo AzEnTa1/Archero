@@ -2,12 +2,10 @@ import pygame
 from pygame.locals import *
 import pygame_gui
 
-# Importation des variables partagées
-import Fonction.Affichage.Shared_Things as var
 
 class SettingsMenu():
 
-    def __init__(self, ui_manager: pygame_gui.UIManager, state_manager):
+    def __init__(self, ui_manager: pygame_gui.UIManager, state_manager, settings):
 
         self.name = 'settings_menu'
         self.state_manager = state_manager
@@ -20,6 +18,7 @@ class SettingsMenu():
         self.Back_Home_Button = None
         self.FPS_Slider = None
         self.FPS_Label = None
+        self.settings = settings
 
     def start(self):
 
@@ -33,7 +32,7 @@ class SettingsMenu():
         
         self.FPS_Slider = pygame_gui.elements.UIHorizontalSlider(
             relative_rect = pygame.Rect(0, 175, 200, 30),
-            start_value=var.FPS,  # Valeur initiale
+            start_value=self.settings.fps,  # Valeur initiale
             value_range=(1, 301),  # Plage de réglage
             manager=self.ui_manager,
             object_id="@FPS_Slider"
@@ -42,7 +41,7 @@ class SettingsMenu():
         # Création du label FPS
         self.FPS_Label = pygame_gui.elements.UILabel(
             relative_rect = pygame.Rect(0, 145, 200, 30),
-            text=f"FPS: {var.FPS}",  # Texte initial
+            text=f"FPS: {self.settings.fps}",  # Texte initial
             manager=self.ui_manager,
             object_id="@FPS_Label"
         )
@@ -65,8 +64,8 @@ class SettingsMenu():
 
             elif event.type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
                 if event.ui_element == self.FPS_Slider:
-                    var.FPS = int(event.value)
-                    self.FPS_Label.set_text(f"FPS: {(var.FPS-1)}")
+                    self.settings.fps = int(event.value)
+                    self.FPS_Label.set_text(f"FPS: {(self.settings.fps - 1)}")
 
         self.ui_manager.update(time_delta)
 

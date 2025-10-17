@@ -5,7 +5,7 @@ import pygame_gui
 
 # Importation des fonctions personnalisées
 from Fonction.Affichage.Menu_Manager import *
-import Fonction.Affichage.Shared_Things as var  # Variables partagées
+from Fonction.Affichage.Settings import * # Variables partagées
 
 # Chargement de l'icône de la fenêtre
 #Window_Game_Icon = pygame.image.load(r"Image/Window_Icon.png")
@@ -27,10 +27,12 @@ ui_manager = pygame_gui.UIManager(
 )
 Clock = pygame.time.Clock()  # Gestion du taux de rafraîchissement
 
+settings = Settings() # Contient les paramettres qui peuvent etre changer un peut partout
+
 # Initialisation des composants graphiques
 app_state_manager = AppStateManager()
 MainMenu(ui_manager, app_state_manager)
-SettingsMenu(ui_manager, app_state_manager)
+SettingsMenu(ui_manager, app_state_manager, settings)
 CodexMenu(ui_manager, app_state_manager)
 GameMenu(ui_manager, app_state_manager)
 
@@ -40,7 +42,7 @@ Running = True  # Contrôle l'exécution de la boucle principale
 # Boucle principale du jeu
 while Running:
     # Contrôle du taux de rafraîchissement (FPS)
-    Frame_Time = Clock.tick(var.FPS)  # Temps écoulé depuis le dernier tick
+    Frame_Time = Clock.tick(settings.fps)  # Temps écoulé depuis le dernier tick
     Time_Delta = min(Frame_Time/1000.0, 0.1)  # Deltatime pour les animations
     
     # Mise à jour de l'état du jeu et gestion des menus

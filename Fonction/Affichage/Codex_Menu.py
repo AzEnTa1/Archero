@@ -1,7 +1,6 @@
 import pygame
 from pygame.locals import *
 import pygame_gui
-import Fonction.Affichage.Shared_Things as var
 
 
 
