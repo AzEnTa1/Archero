@@ -15,22 +15,22 @@ class SettingsMenu():
 
         self.state_manager.register_state(self)
         self.ui_manager = ui_manager
-        self.Back_Home_Button = None
-        self.FPS_Slider = None
-        self.FPS_Label = None
+        self.back_home_button = None
+        self.fps_slider = None
+        self.fps_label = None
         self.settings = settings
 
     def start(self):
 
         # Création du bouton de retour
-        self.Back_Home_Button = pygame_gui.elements.UIButton(
+        self.back_home_button = pygame_gui.elements.UIButton(
             pygame.Rect((0, 0), (100, 50)),
             'Home',
             self.ui_manager
         )
         # Configuration du curseur FPS
         
-        self.FPS_Slider = pygame_gui.elements.UIHorizontalSlider(
+        self.fps_slider = pygame_gui.elements.UIHorizontalSlider(
             relative_rect = pygame.Rect(0, 175, 200, 30),
             start_value=self.settings.fps,  # Valeur initiale
             value_range=(1, 301),  # Plage de réglage
@@ -39,7 +39,7 @@ class SettingsMenu():
         )
 
         # Création du label FPS
-        self.FPS_Label = pygame_gui.elements.UILabel(
+        self.fps_label = pygame_gui.elements.UILabel(
             relative_rect = pygame.Rect(0, 145, 200, 30),
             text=f"FPS: {self.settings.fps}",  # Texte initial
             manager=self.ui_manager,
@@ -47,9 +47,9 @@ class SettingsMenu():
         )
     
     def end(self):
-        self.Back_Home_Button.kill()
-        self.FPS_Slider.kill()
-        self.FPS_Label.kill()
+        self.back_home_button.kill()
+        self.fps_slider.kill()
+        self.fps_label.kill()
 
     def run(self, surface, time_delta):
         for event in pygame.event.get():
@@ -58,14 +58,14 @@ class SettingsMenu():
             
             self.ui_manager.process_events(event)
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                if event.ui_element == self.Back_Home_Button:
+                if event.ui_element == self.back_home_button:
                     self.target_state_name = "main_menu"
                     self.transition = True
 
             elif event.type == pygame_gui.UI_HORIZONTAL_SLIDER_MOVED:
-                if event.ui_element == self.FPS_Slider:
+                if event.ui_element == self.fps_slider:
                     self.settings.fps = int(event.value)
-                    self.FPS_Label.set_text(f"FPS: {(self.settings.fps - 1)}")
+                    self.fps_label.set_text(f"FPS: {(self.settings.fps - 1)}")
 
         self.ui_manager.update(time_delta)
 

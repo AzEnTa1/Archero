@@ -16,19 +16,19 @@ class CodexMenu():
 
         self.state_manager.register_state(self)
         self.ui_manager = ui_manager
-        self.Back_Home_Button = None
+        self.back_home_button = None
 
     def start(self):
         
         # Création du bouton de retour à l'accueil
-        self.Back_Home_Button = pygame_gui.elements.UIButton(
+        self.back_home_button = pygame_gui.elements.UIButton(
             pygame.Rect((0, 0), (100, 50)),
             'Home',
             self.ui_manager
         )
 
     def end(self):
-        self.Back_Home_Button.kill()
+        self.back_home_button.kill()
 
     def run(self, surface, time_delta):
         for event in pygame.event.get():
@@ -38,7 +38,7 @@ class CodexMenu():
             self.ui_manager.process_events(event)
 
             if event.type == pygame_gui.UI_BUTTON_PRESSED:
-                if event.ui_element == self.Back_Home_Button:
+                if event.ui_element == self.back_home_button:
                     self.target_state_name = "main_menu"
                     self.transition = True
 
