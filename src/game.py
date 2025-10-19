@@ -33,7 +33,7 @@ class Game:
             self.ui_manager.update(time_delta)
             
             # Rendu
-            self.screen.fill((0, 0, 0))
+            self.screen.fill((255, 255, 255))
             self.current_scene.render(self.screen)
             self.ui_manager.draw_ui(self.screen)
             
