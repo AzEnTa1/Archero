@@ -1,1 +1,4 @@
 # classe avec chaque ennemies et son comportement (je pense qu'on peut faire autre chpose pr ca mais c pr commencé)
+
+class Enemy:
+    pass

@@ -1,11 +1,6 @@
-from entities import Player, Enemy, Projectile, Weapon
-from scenes import MenuScene, GameScene
-from utils import *
-
-test = Player()
-test2 = Enemy()
-test3 = Projectile()
-test4 = Weapon()
+from .entities import Player, Enemy, Projectile, Weapon
+from .scenes import *
+from .utils import *
 
 __all__ = [
     "Player",

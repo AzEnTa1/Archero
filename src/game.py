@@ -1,7 +1,8 @@
 import pygame
 import pygame_gui
-from src.scenes import MenuScene, GameScene
-from src.entities import Player, Enemy, Projectile, Weapon
+from .scenes import MenuScene
+from .entities import Player, Enemy, Projectile, Weapon
+from .utils import SCREEN_WIDTH, SCREEN_HEIGHT, FPS
 
 class Game:
     def __init__(self):
