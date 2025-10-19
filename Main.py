@@ -2,9 +2,9 @@ import imports
 
 
 def main():
-    pygame.init()
+    imports.pygame.init()
     
-    game = Game()
+    game = imports.Game()
     game.run()
 
 if __name__ == "__main__":
