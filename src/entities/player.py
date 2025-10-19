@@ -1,0 +1,1 @@
+# Représente le personnage du joueur avec ses propriétés et comportements.

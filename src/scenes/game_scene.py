@@ -1,0 +1,1 @@
+# Gère tout ce qui se passe pendant une partie.
