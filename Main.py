@@ -1,10 +1,10 @@
-import imports
-
+import pygame
+from src.game import Game
 
 def main():
-    imports.pygame.init()
-    
-    game = imports.Game()
+    pygame.init()
+
+    game = Game()
     game.run()
 
 if __name__ == "__main__":

@@ -1,8 +1,7 @@
 import pygame
 import pygame_gui
-from src.scenes.menu_scene import MenuScene
-from src.scenes.game_scene import GameScene
-from src.utils.constants import *
+from src.scenes import MenuScene, GameScene
+from src.entities import Player, Enemy, Projectile, Weapon
 
 class Game:
     def __init__(self):

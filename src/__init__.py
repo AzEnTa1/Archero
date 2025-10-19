@@ -1,10 +1,20 @@
-# Importe tous les sous-modules
-from . import entities
-from . import scenes
-from . import utils
-from . import systems
+from entities import Player, Enemy, Projectile, Weapon
+from scenes import MenuScene, GameScene
+from utils import *
 
-# Ré-exporte les classes principales
-from .entities import Player, Enemy
-from .scenes import MenuScene, GameScene
-from .game import Game
+test = Player()
+test2 = Enemy()
+test3 = Projectile()
+test4 = Weapon()
+
+__all__ = [
+    "Player",
+    "Enemy",
+    "Projectile",
+    "Weapon",
+    "MenuScene",
+    "GameScene",
+    "distance",
+    "load_image",
+    "clamp"
+]
