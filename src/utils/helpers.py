@@ -1,5 +1,6 @@
 # Boite a outil, genre des fonctions utilitaires qu'on peut rééutiliser partoutimport math
-import pygame
+import imports
+
 
 def distance(point1, point2):
     """Calcule la distance entre deux points"""

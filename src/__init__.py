@@ -1,18 +1,10 @@
-# Sert a tout importer
+# Importe tous les sous-modules
+from . import entities
+from . import scenes
+from . import utils
+from . import systems
 
-
-
-# Fichier src/__init__.py
+# Ré-exporte les classes principales
+from .entities import Player, Enemy
+from .scenes import MenuScene, GameScene
 from .game import Game
-from .scenes.menu import MenuScene
-from .scenes.game_scene import GameScene
-
-# Fichier src/entities/__init__.py  
-from .player import Player
-from .enemy import Enemy
-from .projectile import Projectile
-
-# Fichier src/scenes/__init__.py
-from .menu import MenuScene
-from .game_scene import GameScene
-from .pause import PauseScene

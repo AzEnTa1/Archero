@@ -1,14 +1,11 @@
-import pygame
-from src.game import Game
+import imports
+
 
 def main():
-    # Initialisation générale
     pygame.init()
-    screen = pygame.display.set_mode((1200, 800))
     
-    # Création du jeu et lancement
-    game = Game(screen)
+    game = Game()
     game.run()
 
 if __name__ == "__main__":
-    main()  # <- L'exécution commence ici !
+    main()
