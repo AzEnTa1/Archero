@@ -13,6 +13,3 @@ BLUE = (0, 0, 255)
 # Player constants
 PLAYER_SPEED = 5
 PLAYER_HEALTH = 100
-
-# Game constants
-GRAVITY = 0.5
