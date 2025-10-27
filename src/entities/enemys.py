@@ -18,7 +18,7 @@ class Enemy:
             self.damage = 15
             self.color = (255, 100, 100)  # Rouge clair
             self.radius = 22
-            self.attack_range = 0  # Contact direct
+            self.attack_range = 1  # Contact direct
             
         elif enemy_type == "shooter":  # Tire des projectiles
             self.speed = 1.5
@@ -27,9 +27,9 @@ class Enemy:
             self.damage = 8
             self.color = (100, 100, 255)  # Bleu
             self.radius = 18
-            self.attack_range = 200  # Portée de tir
+            self.attack_range = 300  # Portée de tir
             self.shoot_cooldown = 0
-            self.shoot_rate = 90  # Toutes les 1.5 secondes (à 60 FPS)
+            self.shoot_rate = 1  # Toutes les 1.5 secondes (à 60 FPS)
         
         else:  # Type basique (par défaut)
             self.speed = 2

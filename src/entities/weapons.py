@@ -4,7 +4,7 @@ from config.settings import *
 from .projectiles import Projectile
 
 class Weapon:
-    def __init__(self, fire_rate=0.5, damage=100, projectile_speed=10):
+    def __init__(self, fire_rate=0.5, damage=10, projectile_speed=10):
         self.fire_rate = fire_rate  # tirs par seconde
         self.damage = damage
         self.projectile_speed = projectile_speed
@@ -24,7 +24,7 @@ class Weapon:
             self.stationary_time = 0
         
         # DEBUG: Afficher l'état de la visée (à enlever après test)
-        # print(f"Stationary: {is_stationary}, Time: {self.stationary_time}/{self.stationary_threshold}")
+        print(f"Stationary: {is_stationary}, Time: {self.stationary_time}/{self.stationary_threshold}")
         
         # Tire seulement si immobile depuis assez longtemps
         if (self.stationary_time >= self.stationary_threshold and 
@@ -75,7 +75,7 @@ class Weapon:
         ))
     
     def shoot(self, player, projectiles):
-        """Crée un projectile dans la dernière direction (fallback)"""
+        """Crée un projectile dans la dernière direction """
         projectiles.append(Projectile(
             player.x, player.y,
             self.last_direction[0] * self.projectile_speed,

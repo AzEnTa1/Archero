@@ -1,2 +1,2 @@
 pygame==
-pygame-gui==
+python==3.12 (ma version, faudrait faire des tests pour vérifier la compatibilité)
