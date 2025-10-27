@@ -23,7 +23,7 @@ class GameScene(BaseScene):
     def on_enter(self):
         """Initialisation du jeu"""
         self.player = Player(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-        self.weapon = Weapon(fire_rate=200)
+        self.weapon = Weapon(fire_rate=2)
         self.font = pygame.font.Font(None, 36)
         self.small_font = pygame.font.Font(None, 24)
         self.projectiles = []

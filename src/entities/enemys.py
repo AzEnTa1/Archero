@@ -18,7 +18,7 @@ class Enemy:
             self.damage = 15
             self.color = (255, 100, 100)  # Rouge clair
             self.radius = 22
-            self.attack_range = 1  # Contact direct
+            self.attack_range = 1000  # Contact direct
             
         elif enemy_type == "shooter":  # Tire des projectiles
             self.speed = 1.5
