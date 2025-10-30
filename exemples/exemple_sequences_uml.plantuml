@@ -1,49 +1,102 @@
 @startuml SequenceDiagram
-' Diagramme de séquence : une course de deux voitures
+' Diagramme de séquence : Déroulement d'une partie
 
-title Séquence - Course de deux voitures sur un circuit
+title Séquence - Déroulement d'une partie de Tour Maudite
 
-participant "Organisateur" as Org
-participant "Circuit" as C
-participant "Voiture A" as V1
-participant "Voiture B" as V2
+participant "Joueur" as J
+participant "Main.py" as Main
+participant "Game" as G
+participant "MenuScene" as MS
+participant "GameScene" as GS
+participant "Player" as P
+participant "Weapon" as W
+participant "Enemy" as E
+participant "Projectile" as Proj
 
-Org -> C : Circuit(longueur_tour=500.0, nombre_tours=3)
-activate C
-Org -> V1 : Voiture('V1')
-activate V1
-Org -> V2 : Voiture('V2')
-activate V2
+Main -> G : Game()
+activate G
+G -> MS : MenuScene(self)
+activate MS
+G -> GS : GameScene(self)
+activate GS
+GS -> P : Player(SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+activate P
+GS -> W : Weapon(fire_rate=2.0)
+activate W
 
-Org -> C : ajouter_voiture(V1)
-C -> V1 : participants.append(V1)
-Org -> C : ajouter_voiture(V2)
-C -> V2 : participants.append(V2)
+Main -> G : run()
+G -> MS : on_enter()
 
-Org -> C : demarrer_course()
-C -> V1 : notifier_demarrage()
-C -> V2 : notifier_demarrage()
-
-loop pour chaque tour [1..3]
-    alt Voiture A accélère puis parcourt le tour
-        V1 -> V1 : accelerer(30)
-        V1 -> C : enregistrer_tour(V1)
-        C -> V1 : mettre_a_jour_position()
+loop Boucle principale [running]
+    G -> G : handle_events()
+    
+    alt Clic sur "Jouer" ou appui sur ENTER
+        J -> MS : handle_event(MOUSEBUTTONDOWN/KEYDOWN)
+        MS -> G : change_scene(SCENE_GAME)
+        G -> MS : on_exit()
+        G -> GS : on_enter()
     end
-
-    alt Voiture B accélère puis parcourt le tour
-        V2 -> V2 : accelerer(25)
-        V2 -> C : enregistrer_tour(V2)
-        C -> V2 : mettre_a_jour_position()
+    
+    G -> GS : update()
+    
+    loop Pour chaque ennemi [enemies]
+        GS -> E : update(player)
+        alt Type shooter et cooldown écoulé
+            E -> E : shoot(dx, dy, projectiles)
+            E -> Proj : Projectile(x, y, dx, dy, damage)
+            activate Proj
+        end
+    end
+    
+    GS -> P : update()
+    P -> W : update_direction(last_dx, last_dy)
+    
+    alt Joueur immobile depuis 0.5s
+        GS -> W : update(player, current_time, projectiles, enemies)
+        W -> W : find_closest_enemy(player, enemies)
+        W -> W : shoot_at_target(player, enemy, projectiles)
+        W -> Proj : Projectile(x, y, dx, dy, damage)
+        activate Proj
+    end
+    
+    loop Pour chaque projectile [projectiles]
+        GS -> Proj : update()
+        alt Collision avec ennemi
+            Proj -> E : take_damage(damage)
+            alt Ennemi mort
+                GS -> E : remove(enemy)
+            end
+            GS -> Proj : remove(projectile)
+        end
+    end
+    
+    G -> GS : draw(screen)
+    GS -> P : draw(screen)
+    loop Pour chaque ennemi [enemies]
+        GS -> E : draw(screen)
+    end
+    loop Pour chaque projectile [projectiles]
+        GS -> Proj : draw(screen)
+    end
+    
+    alt Appui sur ESC
+        J -> GS : handle_event(KEYDOWN)
+        GS -> G : change_scene(SCENE_MENU)
+        G -> GS : on_exit()
+        G -> MS : on_enter()
     end
 end
 
-C -> C : calculer_classement()
-C -> Org : afficher_classement() : ["V1", "V2"]
-deactivate V2
-deactivate V1
-deactivate C
+alt Fermeture de la fenêtre
+    J -> G : handle_event(QUIT)
+    G -> G : running = False
+end
 
-Org -> V1 : feliciter()
-Org -> V2 : remercier()
+G -> Main : pygame.quit()
+deactivate Proj
+deactivate W
+deactivate P
+deactivate GS
+deactivate MS
+deactivate G
 @enduml
